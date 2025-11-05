@@ -1,5 +1,5 @@
-; (http-get "https://www.naver.com")
-(defun http-get (url / http txt)
+; (pop:httpGetClient "https://www.naver.com")
+(defun pop:httpGetClient (url / http txt)
 
 	; XMLHTTP 객체 생성(클라이언트용, 간단 요청에 적합)
 	(setq http (vlax-create-object "MSXML2.XMLHTTP"))
@@ -19,8 +19,8 @@
 	txt
 )
 
-; (http-get-server "https://www.naver.com")
-(defun http-get-server (url / http txt)
+; (pop:httpGetServer "https://www.naver.com")
+(defun pop:httpGetServer (url / http txt)
 
 	; ServerXMLHTTP는 서버-사이드 시나리오에 최적화, 방화벽/프록시 대응이 비교적 안정적
 	(setq http (vlax-create-object "MSXML2.ServerXMLHTTP"))

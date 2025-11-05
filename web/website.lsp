@@ -1,6 +1,6 @@
- ; chrome 을 이용해 웹사이트를 열어준다.
-; (open-url-chrome "https://www.naver.com")
-(defun open-url-chrome (url / chrome)
+; chrome 을 이용해 웹사이트를 열어준다.
+; (pop:openUrlChrome "https://www.naver.com")
+(defun pop:openUrlChrome (url / chrome)
 
 	(or
 		(setq chrome (findfile "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"))
@@ -16,8 +16,8 @@
 )
 
 ; 기본 브라우저로 웹사이트를 열어준다.
-; (open-url-shell "https://www.naver.com")
-(defun open-url-shell (url / sh)
+; (pop:openUrlShell "https://www.naver.com")
+(defun pop:openUrlShell (url / sh)
 
 	(setq sh (vlax-create-object "Shell.Application"))
 
