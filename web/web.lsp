@@ -6,7 +6,7 @@
 (princ resp)
 )
 
-; (open-url-chrome "https://www.google.com")
+; (open-url-chrome "https://www.naver.com")
 
 (defun open-url-chrome (url / chrome)
 
