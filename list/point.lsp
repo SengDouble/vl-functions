@@ -1,44 +1,93 @@
-; Descending
-; xAxis
-; 큰값 - 작은값
-(defun pop:sort:Descending:X ( des )
+; Sort point list by X coordinate in descending order.
+; Example:
+; (SD:sort-x-descending '((3.0 0.0 0.0) (9.0 0.0 0.0) (6.0 0.0 0.0)))
+; => ((9.0 0.0 0.0) (6.0 0.0 0.0) (3.0 0.0 0.0))
+(defun SD:sort-x-descending ( lst )
 
-    (if (and (listp des) (apply 'and (mapcar 'listp des)))
+    (if (SD:point-p lst)
 
-        (vl-sort des (function (lambda (e1 e2) (> (car e1) (car e2)))))
+        (vl-sort lst
+            (function
+                (lambda (e1 e2)
+                    (> (car e1) (car e2))
+                )
+            )
+        )
     )
 )
 
-; ascending
-; xAxis
-; 작은값 - 큰값
-(defun pop:sort:ascending:X ( asc )
+; Sort point list by X coordinate in ascending order.
+; Example:
+; (SD:sort-x-ascending '((3.0 0.0 0.0) (9.0 0.0 0.0) (6.0 0.0 0.0)))
+; => ((3.0 0.0 0.0) (6.0 0.0 0.0) (9.0 0.0 0.0))
+(defun SD:sort-x-ascending ( lst )
 
-    (if (and (listp asc) (apply 'and (mapcar 'listp asc)))
+    (if (SD:point-p lst)
 
-        (vl-sort asc (function (lambda (e1 e2) (< (car e1) (car e2)))))
+        (vl-sort lst
+            (function
+                (lambda (e1 e2)
+                    (< (car e1) (car e2))
+                )
+            )
+        )
     )
 )
 
-; Descending
-; yAxis
-; 큰값 - 작은값
-(defun pop:sort:Descending:Y ( des )
+; Sort point list by Y coordinate in descending order.
+; Example:
+; (SD:sort-y-descending '((0.0 3.0 0.0) (0.0 9.0 0.0) (0.0 6.0 0.0)))
+; => ((0.0 9.0 0.0) (0.0 6.0 0.0) (0.0 3.0 0.0))
+(defun SD:sort-y-descending ( lst )
 
-    (if (and (listp des) (apply 'and (mapcar 'listp des)))
+    (if (SD:point-p lst)
 
-        (vl-sort des (function (lambda (e1 e2) (> (cadr e1) (cadr e2)))))
+        (vl-sort lst
+            (function
+                (lambda (e1 e2)
+                    (> (cadr e1) (cadr e2))
+                )
+            )
+        )
     )
 )
 
-; ascending
-; yAxis
-; 작은값 - 큰값
-(defun pop:sort:ascending:Y ( asc )
+; Sort point list by Y coordinate in ascending order.
+; Example:
+; (SD:sort-y-ascending '((0.0 3.0 0.0) (0.0 9.0 0.0) (0.0 6.0 0.0)))
+; => ((0.0 3.0 0.0) (0.0 6.0 0.0) (0.0 9.0 0.0))
+(defun SD:sort-y-ascending ( lst )
 
-    (if (and (listp asc) (apply 'and (mapcar 'listp asc)))
+    (if (SD:point-p lst)
 
-        (vl-sort asc (function (lambda (e1 e2) (< (cadr e1) (cadr e2)))))
+        (vl-sort lst
+            (function
+                (lambda (e1 e2)
+                    (< (cadr e1) (cadr e2))
+                )
+            )
+        )
     )
 )
 
+; Check whether all items in the list are valid points.
+; Example:
+; (SD:point-p '((0.0 3.0 0.0) (0.0 9.0 0.0)))
+; => T
+(defun SD:point-p ( est )
+
+    (and
+        (= 'list (type est))
+        (apply 'and
+            (mapcar
+                '(lambda ( pt )
+                    (and
+                        (= 'list (type pt))
+                        (numberp (car  pt))
+                        (numberp (cadr pt))
+                    )
+                ) est
+            )
+        )
+    )
+)

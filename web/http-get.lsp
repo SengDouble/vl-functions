@@ -1,45 +1,168 @@
-; (pop:httpGetClient "https://www.naver.com")
-(defun pop:httpGetClient (url / http txt)
+; Return response text from a URL using MSXML2.XMLHTTP.
+; Example:
+; (SD:http-get-client "https://www.naver.com")
+; => "<!doctype html>..."
+(defun SD:http-get-client ( url / http response-text )
 
-	; XMLHTTP 객체 생성(클라이언트용, 간단 요청에 적합)
-	(setq http (vlax-create-object "MSXML2.XMLHTTP"))
+    (if (= 'str (type url))
 
-	; open(method, url, async?) : :vlax-false = 동기 요청(호출이 블로킹됨)
-	(vlax-invoke-method http 'open "GET" url :vlax-false)
+        (progn
 
-	; 본문 없는 GET 전송
-	(vlax-invoke-method http 'send)
+            (setq http
+                (vl-catch-all-apply 'vlax-create-object (list "MSXML2.XMLHTTP"))
+            )
 
-	; 서버 응답 텍스트 가져오기(HTML/JSON 모두 문자열)
-	(setq txt (vlax-get http 'responseText))
+            (if (not (vl-catch-all-error-p http))
 
-	; COM 객체 해제
-	(vlax-release-object http)
+                (progn
 
-	txt
+                    (if
+                        (and
+                            (= nil (vl-catch-all-apply 'vlax-invoke-method (list http 'open "GET" url :vlax-false)))
+                            (= nil (vl-catch-all-apply 'vlax-invoke-method (list http 'send)))
+                        )
+
+                        (progn
+
+                            (setq response-text
+                                (vl-catch-all-apply 'vlax-get (list http 'responseText))
+                            )
+
+                            (if (vl-catch-all-error-p response-text)
+                                (setq response-text nil)
+                            )
+                        )
+                    )
+
+                    (vl-catch-all-apply 'vlax-release-object (list http))
+                )
+            )
+        )
+    )
+
+    response-text
 )
 
-; (pop:httpGetServer "https://www.naver.com")
-(defun pop:httpGetServer (url / http txt)
+; Return response text from a URL using MSXML2.ServerXMLHTTP.
+; Example:
+; (SD:http-get-server "https://www.naver.com")
+; => "<!doctype html>..."
+(defun SD:http-get-server ( url / http response-text )
 
-	; ServerXMLHTTP는 서버-사이드 시나리오에 최적화, 방화벽/프록시 대응이 비교적 안정적
-	(setq http (vlax-create-object "MSXML2.ServerXMLHTTP"))
+    (if (= 'str (type url))
 
-	; setTimeouts(resolve, connect, send, receive) 단위 ms
-	; 0은 DNS/resolve 무제한, 나머지는 60초 설정
-	(vlax-invoke-method http 'setTimeouts 0 60000 60000 60000)
+        (progn
 
-	; 동기 모드로 열기
-	(vlax-invoke-method http 'open "GET" url :vlax-false)
+            (setq http
+                (vl-catch-all-apply 'vlax-create-object (list "MSXML2.ServerXMLHTTP"))
+            )
 
-	; 요청 전송
-	(vlax-invoke-method http 'send)
+            (if (not (vl-catch-all-error-p http))
 
-	; 응답 텍스트 취득
-	(setq txt (vlax-get http 'responseText))
+                (progn
 
-	; COM 객체 해제
-	(vlax-release-object http)
+                    (vl-catch-all-apply 'vlax-invoke-method
+                        (list http 'setTimeouts 0 60000 60000 60000)
+                    )
 
-	txt
+                    (if
+                        (and
+                            (= nil (vl-catch-all-apply 'vlax-invoke-method (list http 'open "GET" url :vlax-false)))
+                            (= nil (vl-catch-all-apply 'vlax-invoke-method (list http 'send)))
+                        )
+
+                        (progn
+
+                            (setq response-text
+                                (vl-catch-all-apply 'vlax-get (list http 'responseText))
+                            )
+
+                            (if (vl-catch-all-error-p response-text)
+                                (setq response-text nil)
+                            )
+                        )
+                    )
+
+                    (vl-catch-all-apply 'vlax-release-object (list http))
+                )
+            )
+        )
+    )
+
+    response-text
+)
+
+; Return response headers from the first reachable URL in the URL list.
+; Example:
+; (SD:get-first-response-headers (list "https://www.naver.com/"))
+; => "Date: Thu, 05 Feb 2026 06:43:32 GMT\r\ncontent-type: text/html; charset=UTF-8\r\n..."
+(defun SD:get-first-response-headers ( url-list /
+
+        http index url success headers result
+    )
+
+    (if (= 'list (type url-list))
+
+        (progn
+
+            (setq http
+                (vl-catch-all-apply 'vlax-create-object (list "MSXML2.XMLHTTP.6.0"))
+            )
+
+            (if (not (vl-catch-all-error-p http))
+
+                (progn
+
+                    (setq index 0)
+
+                    (while
+
+                        (and
+                            (null result)
+                            (< index (length url-list))
+                        )
+
+                        (setq url (nth index url-list))
+                        (setq index (1+ index))
+
+                        (if (= 'str (type url))
+
+                            (progn
+
+                                (setq success
+
+                                    (and
+
+                                        (= nil (vl-catch-all-apply 'vlax-invoke-method (list http 'open "GET" url :vlax-false)))
+
+                                        (= nil (vl-catch-all-apply 'vlax-invoke-method (list http 'send)))
+                                    )
+                                )
+
+                                (if success
+
+                                    (progn
+
+                                        (setq headers
+                                            (vl-catch-all-apply 'vlax-invoke-method
+                                                (list http 'GetAllResponseHeaders)
+                                            )
+                                        )
+
+                                        (if (not (vl-catch-all-error-p headers))
+                                            (setq result headers)
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+
+                    (vl-catch-all-apply 'vlax-release-object (list http))
+                )
+            )
+        )
+    )
+
+    result
 )

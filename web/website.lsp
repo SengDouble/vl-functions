@@ -1,29 +1,68 @@
-; chrome 을 이용해 웹사이트를 열어준다.
-; (pop:openUrlChrome "https://www.naver.com")
-(defun pop:openUrlChrome (url / chrome)
+; Open a URL in a new Google Chrome window.
+; Example:
+; (SD:open-url-chrome "https://www.naver.com")
+; => nil
+(defun SD:open-url-chrome ( url / chrome result )
 
-	(or
-		(setq chrome (findfile "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"))
-		(setq chrome (findfile "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"))
-	)
+    (if (= 'str (type url))
 
-	(if (= 'str (type chrome) (type url))
+        (progn
 
-		(startapp chrome (strcat "--new-window \"" url "\""))
-	)
+            (or
+                (setq chrome (findfile "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"))
+                (setq chrome (findfile "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"))
+            )
 
-	(princ)
+            (if (= 'str (type chrome))
+
+                (setq result
+                    (vl-catch-all-apply 'startapp
+                        (list chrome (strcat "--new-window \"" url "\""))
+                    )
+                )
+            )
+        )
+    )
+
+    (if (vl-catch-all-error-p result)
+        nil
+        result
+    )
 )
 
-; 기본 브라우저로 웹사이트를 열어준다.
-; (pop:openUrlShell "https://www.naver.com")
-(defun pop:openUrlShell (url / sh)
+; Open a URL with the default system browser.
+; Example:
+; (SD:open-url-shell "https://www.naver.com")
+; => nil
+(defun SD:open-url-shell ( url / shell result )
 
-	(setq sh (vlax-create-object "Shell.Application"))
+    (if (= 'str (type url))
 
-	(vlax-invoke-method sh 'Open url)
+        (progn
 
-	(vlax-release-object sh)
+            (setq shell
+                (vl-catch-all-apply 'vlax-create-object (list "Shell.Application"))
+            )
 
-	(princ)
+            (if (not (vl-catch-all-error-p shell))
+
+                (progn
+
+                    (setq result
+                        (vl-catch-all-apply 'vlax-invoke-method
+                            (list shell 'Open url)
+                        )
+                    )
+
+                    (vl-catch-all-apply 'vlax-release-object (list shell))
+                )
+            )
+        )
+    )
+
+    (if (vl-catch-all-error-p result)
+        nil
+        result
+    )
 )
+
