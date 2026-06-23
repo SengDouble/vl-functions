@@ -77,8 +77,10 @@
 ; Insert an item at the zero-based index in the list.
 ; Appends the item when the index is greater than the list length.
 ; Example:
-; (SD:insert-nth 20 1 '(10 30)) => (10 20 30)
-; (SD:insert-nth 20 0 nil) => (20)
+; (SD:insert-nth 20 1 '(10 30))
+; => (10 20 30)
+; (SD:insert-nth 20 0 nil)
+; => (20)
 (defun SD:insert-nth ( item index lst )
 
     (if (and (= 'int (type index)) (<= 0 index) (listp lst))

@@ -21,35 +21,10 @@ web/            HTTP and browser helpers
 | Module | Functions |
 | --- | --- |
 | `etc/util.lsp` | `SD:generate-uuid`, `SD:get-timestamp`, `SD:get-mac-address` |
-| `list/list.lsp` | `SD:assoc-value`, `SD:remove-nth`, `SD:remove-duplicates` |
+| `list/list.lsp` | `SD:assoc-value`, `SD:insert-nth`, `SD:remove-nth`, `SD:remove-duplicates` |
 | `list/point.lsp` | `SD:point-p`, `SD:point-centroid`, `SD:sort-x-descending`, `SD:sort-x-ascending`, `SD:sort-y-descending`, `SD:sort-y-ascending` |
 | `web/http-get.lsp` | `SD:http-get-client`, `SD:http-get-server`, `SD:http-get-status-code`, `SD:get-first-response-headers` |
 | `web/website.lsp` | `SD:open-url-chrome`, `SD:open-url-edge`, `SD:open-url-edge-inprivate`, `SD:open-url-shell` |
-
-## Usage
-
-```lisp
-(load "list/point.lsp")
-
-(SD:sort-x-descending '((3.0 0.0 0.0) (9.0 0.0 0.0) (6.0 0.0 0.0)))
-; => ((9.0 0.0 0.0) (6.0 0.0 0.0) (3.0 0.0 0.0))
-```
-
-## Examples
-
-```lisp
-(SD:generate-uuid)
-; => "{A679190D-F4CC-4D13-966F-C053A640DBA8}"
-
-(SD:assoc-value "name" '(("name" "Alice") ("age" 30)))
-; => "Alice"
-
-(SD:http-get-client "https://www.naver.com")
-; => "<!doctype html>..."
-
-(SD:open-url-shell "https://www.naver.com")
-; => nil
-```
 
 ## Naming
 
