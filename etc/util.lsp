@@ -25,6 +25,23 @@
     )
 )
 
+; Return the current date and time as a filename-friendly timestamp.
+; Example:
+; (vlq:get-datetime-stamp)
+; => "20260618-143012"
+(defun vlq:get-datetime-stamp (/ timestamp)
+
+    (setq timestamp
+        (vl-catch-all-apply 'menucmd
+            (list "M=$(edtime,$(getvar,date),YYYYMODD-HHMMSS)")
+        )
+    )
+
+    (if (and (not (vl-catch-all-error-p timestamp)) (= 'str (type timestamp)))
+        timestamp
+    )
+)
+
 ; Return the MAC address of the first IP-enabled network adapter using WMI.
 ; Example:
 ; (vlq:get-mac-address)
@@ -93,21 +110,4 @@
     )
 
     result
-)
-
-; Return the current date and time as a filename-friendly timestamp.
-; Example:
-; (vlq:get-datetime-stamp)
-; => "20260618-143012"
-(defun vlq:get-datetime-stamp (/ timestamp)
-
-    (setq timestamp
-        (vl-catch-all-apply 'menucmd
-            (list "M=$(edtime,$(getvar,date),YYYYMODD-HHMMSS)")
-        )
-    )
-
-    (if (and (not (vl-catch-all-error-p timestamp)) (= 'str (type timestamp)))
-        timestamp
-    )
 )

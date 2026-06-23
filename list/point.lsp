@@ -1,97 +1,3 @@
-; Sort point list by X coordinate in descending order.
-; Example:
-; (vlq:sort-x-descending '((3.0 0.0 0.0) (9.0 0.0 0.0) (6.0 0.0 0.0)))
-; => ((9.0 0.0 0.0) (6.0 0.0 0.0) (3.0 0.0 0.0))
-(defun vlq:sort-x-descending ( lst )
-
-    (if (vlq:point-p lst)
-
-        (vl-sort lst
-            (function
-                (lambda (e1 e2)
-                    (> (car e1) (car e2))
-                )
-            )
-        )
-    )
-)
-
-; Sort point list by X coordinate in ascending order.
-; Example:
-; (vlq:sort-x-ascending '((3.0 0.0 0.0) (9.0 0.0 0.0) (6.0 0.0 0.0)))
-; => ((3.0 0.0 0.0) (6.0 0.0 0.0) (9.0 0.0 0.0))
-(defun vlq:sort-x-ascending ( lst )
-
-    (if (vlq:point-p lst)
-
-        (vl-sort lst
-            (function
-                (lambda (e1 e2)
-                    (< (car e1) (car e2))
-                )
-            )
-        )
-    )
-)
-
-; Sort point list by Y coordinate in descending order.
-; Example:
-; (vlq:sort-y-descending '((0.0 3.0 0.0) (0.0 9.0 0.0) (0.0 6.0 0.0)))
-; => ((0.0 9.0 0.0) (0.0 6.0 0.0) (0.0 3.0 0.0))
-(defun vlq:sort-y-descending ( lst )
-
-    (if (vlq:point-p lst)
-
-        (vl-sort lst
-            (function
-                (lambda (e1 e2)
-                    (> (cadr e1) (cadr e2))
-                )
-            )
-        )
-    )
-)
-
-; Sort point list by Y coordinate in ascending order.
-; Example:
-; (vlq:sort-y-ascending '((0.0 3.0 0.0) (0.0 9.0 0.0) (0.0 6.0 0.0)))
-; => ((0.0 3.0 0.0) (0.0 6.0 0.0) (0.0 9.0 0.0))
-(defun vlq:sort-y-ascending ( lst )
-
-    (if (vlq:point-p lst)
-
-        (vl-sort lst
-            (function
-                (lambda (e1 e2)
-                    (< (cadr e1) (cadr e2))
-                )
-            )
-        )
-    )
-)
-
-; Check whether all items in the list are valid points.
-; Example:
-; (vlq:point-p '((0.0 3.0 0.0) (0.0 9.0 0.0)))
-; => T
-(defun vlq:point-p ( est )
-
-    (and
-        (= 'list (type est))
-        (apply 'and
-            (mapcar
-                '(lambda ( pt )
-                    (and
-                        (= 'list (type pt))
-                        (numberp (car  pt))
-                        (numberp (cadr pt))
-                    )
-                ) est
-            )
-        )
-    )
-)
-
 ; (vlq:point-centroid (list (getpoint)(getpoint)))
 ; Return the average center point of a point list.
 ; Returns a 3D point when every input point has a numeric Z coordinate.
@@ -125,6 +31,100 @@
             (if has-z
                 (list (/ sum-x count) (/ sum-y count) (/ sum-z count))
                 (list (/ sum-x count) (/ sum-y count))
+            )
+        )
+    )
+)
+
+; Check whether all items in the list are valid points.
+; Example:
+; (vlq:point-p '((0.0 3.0 0.0) (0.0 9.0 0.0)))
+; => T
+(defun vlq:point-p ( est )
+
+    (and
+        (= 'list (type est))
+        (apply 'and
+            (mapcar
+                '(lambda ( pt )
+                    (and
+                        (= 'list (type pt))
+                        (numberp (car  pt))
+                        (numberp (cadr pt))
+                    )
+                ) est
+            )
+        )
+    )
+)
+
+; Sort point list by X coordinate in ascending order.
+; Example:
+; (vlq:sort-x-ascending '((3.0 0.0 0.0) (9.0 0.0 0.0) (6.0 0.0 0.0)))
+; => ((3.0 0.0 0.0) (6.0 0.0 0.0) (9.0 0.0 0.0))
+(defun vlq:sort-x-ascending ( lst )
+
+    (if (vlq:point-p lst)
+
+        (vl-sort lst
+            (function
+                (lambda (e1 e2)
+                    (< (car e1) (car e2))
+                )
+            )
+        )
+    )
+)
+
+; Sort point list by X coordinate in descending order.
+; Example:
+; (vlq:sort-x-descending '((3.0 0.0 0.0) (9.0 0.0 0.0) (6.0 0.0 0.0)))
+; => ((9.0 0.0 0.0) (6.0 0.0 0.0) (3.0 0.0 0.0))
+(defun vlq:sort-x-descending ( lst )
+
+    (if (vlq:point-p lst)
+
+        (vl-sort lst
+            (function
+                (lambda (e1 e2)
+                    (> (car e1) (car e2))
+                )
+            )
+        )
+    )
+)
+
+; Sort point list by Y coordinate in ascending order.
+; Example:
+; (vlq:sort-y-ascending '((0.0 3.0 0.0) (0.0 9.0 0.0) (0.0 6.0 0.0)))
+; => ((0.0 3.0 0.0) (0.0 6.0 0.0) (0.0 9.0 0.0))
+(defun vlq:sort-y-ascending ( lst )
+
+    (if (vlq:point-p lst)
+
+        (vl-sort lst
+            (function
+                (lambda (e1 e2)
+                    (< (cadr e1) (cadr e2))
+                )
+            )
+        )
+    )
+)
+
+; Sort point list by Y coordinate in descending order.
+; Example:
+; (vlq:sort-y-descending '((0.0 3.0 0.0) (0.0 9.0 0.0) (0.0 6.0 0.0)))
+; => ((0.0 9.0 0.0) (0.0 6.0 0.0) (0.0 3.0 0.0))
+(defun vlq:sort-y-descending ( lst )
+
+    (if (vlq:point-p lst)
+
+        (vl-sort lst
+            (function
+                (lambda (e1 e2)
+                    (> (cadr e1) (cadr e2))
+                )
             )
         )
     )

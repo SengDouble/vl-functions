@@ -30,26 +30,28 @@ web/            HTTP and browser helpers
 
 ### `list/list.lsp`
 
+- `vlq:append-item`
 - `vlq:assoc-value`
 - `vlq:insert-nth`
-- `vlq:remove-nth`
+- `vlq:prepend-item`
 - `vlq:remove-duplicates`
+- `vlq:remove-nth`
 
 ### `list/point.lsp`
 
-- `vlq:point-p`
 - `vlq:point-centroid`
-- `vlq:sort-x-descending`
+- `vlq:point-p`
 - `vlq:sort-x-ascending`
-- `vlq:sort-y-descending`
+- `vlq:sort-x-descending`
 - `vlq:sort-y-ascending`
+- `vlq:sort-y-descending`
 
 ### `web/http-get.lsp`
 
+- `vlq:get-first-response-headers`
 - `vlq:http-get-client`
 - `vlq:http-get-server`
 - `vlq:http-get-status-code`
-- `vlq:get-first-response-headers`
 
 ### `web/website.lsp`
 
@@ -57,7 +59,6 @@ web/            HTTP and browser helpers
 - `vlq:open-url-edge`
 - `vlq:open-url-edge-inprivate`
 - `vlq:open-url-shell`
-
 
 ## Notes
 
