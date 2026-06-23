@@ -1,3 +1,6 @@
+; Website and browser helpers.
+; Functions in this file open URLs through a specific browser or the system shell.
+
 ; Open a URL in a new Google Chrome window.
 ; Example:
 ; (SD:open-url-chrome "https://www.naver.com")
@@ -66,3 +69,67 @@
     )
 )
 
+
+; Open a URL in a new Microsoft Edge window.
+; Example:
+; (SD:open-url-edge "https://www.naver.com")
+; => nil
+(defun SD:open-url-edge ( url / edge result )
+
+    (if (= 'str (type url))
+
+        (progn
+
+            (or
+                (setq edge (findfile "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"))
+                (setq edge (findfile "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"))
+            )
+
+            (if (= 'str (type edge))
+
+                (setq result
+                    (vl-catch-all-apply 'startapp
+                        (list edge (strcat "--new-window \"" url "\""))
+                    )
+                )
+            )
+        )
+    )
+
+    (if (vl-catch-all-error-p result)
+        nil
+        result
+    )
+)
+
+; Open a URL in a new Microsoft Edge InPrivate window.
+; Example:
+; (SD:open-url-edge-inprivate "https://www.naver.com")
+; => nil
+(defun SD:open-url-edge-inprivate ( url / edge result )
+
+    (if (= 'str (type url))
+
+        (progn
+
+            (or
+                (setq edge (findfile "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"))
+                (setq edge (findfile "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"))
+            )
+
+            (if (= 'str (type edge))
+
+                (setq result
+                    (vl-catch-all-apply 'startapp
+                        (list edge (strcat "--inprivate --new-window \"" url "\""))
+                    )
+                )
+            )
+        )
+    )
+
+    (if (vl-catch-all-error-p result)
+        nil
+        result
+    )
+)

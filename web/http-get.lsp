@@ -166,3 +166,73 @@
 
     result
 )
+
+; Return the HTTP status code from a URL using MSXML2.ServerXMLHTTP.
+; Tries HEAD first and falls back to GET when HEAD is unavailable.
+; Common status codes:
+; 200  Success
+; 301  Moved permanently
+; 302  Moved temporarily
+; 400  Bad request
+; 401  Authentication required
+; 403  Forbidden
+; 404  Not found
+; 500  Server error
+; Example:
+; (SD:http-get-status-code "https://www.naver.com")
+; => 200
+(defun SD:http-get-status-code ( url / http method status-code )
+
+    (if (= 'str (type url))
+
+        (progn
+
+            (setq http
+                (vl-catch-all-apply 'vlax-create-object (list "MSXML2.ServerXMLHTTP"))
+            )
+
+            (if (not (vl-catch-all-error-p http))
+
+                (progn
+
+                    (vl-catch-all-apply 'vlax-invoke-method
+                        (list http 'setTimeouts 0 60000 60000 60000)
+                    )
+
+                    (foreach method (list "HEAD" "GET")
+
+                        (if (or (null status-code) (member status-code (list 405 501)))
+
+                            (progn
+
+                                (setq status-code nil)
+
+                                (if
+                                    (and
+                                        (= nil (vl-catch-all-apply 'vlax-invoke-method (list http 'open method url :vlax-false)))
+                                        (= nil (vl-catch-all-apply 'vlax-invoke-method (list http 'send)))
+                                    )
+
+                                    (progn
+
+                                        (setq status-code
+                                            (vl-catch-all-apply 'vlax-get (list http 'status))
+                                        )
+
+                                        (if (vl-catch-all-error-p status-code)
+                                            (setq status-code nil)
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+
+                    (vl-catch-all-apply 'vlax-release-object (list http))
+                )
+            )
+        )
+    )
+
+    status-code
+)

@@ -51,3 +51,43 @@
         )
     )
 )
+
+; Remove duplicate items from the list while preserving the original order.
+; Example:
+; (SD:remove-duplicates '(10 20 10 30 20))
+; => (10 20 30)
+(defun SD:remove-duplicates ( lst / item result )
+
+    (if (= 'list (type lst))
+
+        (progn
+
+            (foreach item lst
+
+                (if (not (member item result))
+                    (setq result (cons item result))
+                )
+            )
+
+            (reverse result)
+        )
+    )
+)
+
+; Insert an item at the zero-based index in the list.
+; Appends the item when the index is greater than the list length.
+; Example:
+; (SD:insert-nth 20 1 '(10 30)) => (10 20 30)
+; (SD:insert-nth 20 0 nil) => (20)
+(defun SD:insert-nth ( item index lst )
+
+    (if (and (= 'int (type index)) (<= 0 index) (listp lst))
+
+        (if (and lst (< 0 index))
+
+            (cons (car lst) (SD:insert-nth item (1- index) (cdr lst)))
+
+            (cons item lst)
+        )
+    )
+)

@@ -91,3 +91,41 @@
         )
     )
 )
+
+; (SD:point-centroid (list (getpoint)(getpoint)))
+; Return the average center point of a point list.
+; Returns a 3D point when every input point has a numeric Z coordinate.
+; Example:
+; (SD:point-centroid '((0.0 0.0 0.0) (10.0 0.0 0.0) (10.0 10.0 0.0) (0.0 10.0 0.0)))
+; => (5.0 5.0 0.0)
+(defun SD:point-centroid ( lst / pt count sum-x sum-y sum-z has-z )
+
+    (if (and (SD:point-p lst) lst)
+
+        (progn
+
+            (setq count 0)
+            (setq sum-x 0.0)
+            (setq sum-y 0.0)
+            (setq sum-z 0.0)
+            (setq has-z T)
+
+            (foreach pt lst
+
+                (setq count (1+ count))
+                (setq sum-x (+ sum-x (car pt)))
+                (setq sum-y (+ sum-y (cadr pt)))
+
+                (if (numberp (caddr pt))
+                    (setq sum-z (+ sum-z (caddr pt)))
+                    (setq has-z nil)
+                )
+            )
+
+            (if has-z
+                (list (/ sum-x count) (/ sum-y count) (/ sum-z count))
+                (list (/ sum-x count) (/ sum-y count))
+            )
+        )
+    )
+)

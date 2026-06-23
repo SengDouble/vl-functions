@@ -94,3 +94,20 @@
 
     result
 )
+
+; Return the current date and time as a filename-friendly timestamp.
+; Example:
+; (SD:get-datetime-stamp)
+; => "20260618-143012"
+(defun SD:get-datetime-stamp (/ timestamp)
+
+    (setq timestamp
+        (vl-catch-all-apply 'menucmd
+            (list "M=$(edtime,$(getvar,date),YYYYMODD-HHMMSS)")
+        )
+    )
+
+    (if (and (not (vl-catch-all-error-p timestamp)) (= 'str (type timestamp)))
+        timestamp
+    )
+)
