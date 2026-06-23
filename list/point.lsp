@@ -1,10 +1,10 @@
 ; Sort point list by X coordinate in descending order.
 ; Example:
-; (SD:sort-x-descending '((3.0 0.0 0.0) (9.0 0.0 0.0) (6.0 0.0 0.0)))
+; (vlq:sort-x-descending '((3.0 0.0 0.0) (9.0 0.0 0.0) (6.0 0.0 0.0)))
 ; => ((9.0 0.0 0.0) (6.0 0.0 0.0) (3.0 0.0 0.0))
-(defun SD:sort-x-descending ( lst )
+(defun vlq:sort-x-descending ( lst )
 
-    (if (SD:point-p lst)
+    (if (vlq:point-p lst)
 
         (vl-sort lst
             (function
@@ -18,11 +18,11 @@
 
 ; Sort point list by X coordinate in ascending order.
 ; Example:
-; (SD:sort-x-ascending '((3.0 0.0 0.0) (9.0 0.0 0.0) (6.0 0.0 0.0)))
+; (vlq:sort-x-ascending '((3.0 0.0 0.0) (9.0 0.0 0.0) (6.0 0.0 0.0)))
 ; => ((3.0 0.0 0.0) (6.0 0.0 0.0) (9.0 0.0 0.0))
-(defun SD:sort-x-ascending ( lst )
+(defun vlq:sort-x-ascending ( lst )
 
-    (if (SD:point-p lst)
+    (if (vlq:point-p lst)
 
         (vl-sort lst
             (function
@@ -36,11 +36,11 @@
 
 ; Sort point list by Y coordinate in descending order.
 ; Example:
-; (SD:sort-y-descending '((0.0 3.0 0.0) (0.0 9.0 0.0) (0.0 6.0 0.0)))
+; (vlq:sort-y-descending '((0.0 3.0 0.0) (0.0 9.0 0.0) (0.0 6.0 0.0)))
 ; => ((0.0 9.0 0.0) (0.0 6.0 0.0) (0.0 3.0 0.0))
-(defun SD:sort-y-descending ( lst )
+(defun vlq:sort-y-descending ( lst )
 
-    (if (SD:point-p lst)
+    (if (vlq:point-p lst)
 
         (vl-sort lst
             (function
@@ -54,11 +54,11 @@
 
 ; Sort point list by Y coordinate in ascending order.
 ; Example:
-; (SD:sort-y-ascending '((0.0 3.0 0.0) (0.0 9.0 0.0) (0.0 6.0 0.0)))
+; (vlq:sort-y-ascending '((0.0 3.0 0.0) (0.0 9.0 0.0) (0.0 6.0 0.0)))
 ; => ((0.0 3.0 0.0) (0.0 6.0 0.0) (0.0 9.0 0.0))
-(defun SD:sort-y-ascending ( lst )
+(defun vlq:sort-y-ascending ( lst )
 
-    (if (SD:point-p lst)
+    (if (vlq:point-p lst)
 
         (vl-sort lst
             (function
@@ -72,9 +72,9 @@
 
 ; Check whether all items in the list are valid points.
 ; Example:
-; (SD:point-p '((0.0 3.0 0.0) (0.0 9.0 0.0)))
+; (vlq:point-p '((0.0 3.0 0.0) (0.0 9.0 0.0)))
 ; => T
-(defun SD:point-p ( est )
+(defun vlq:point-p ( est )
 
     (and
         (= 'list (type est))
@@ -92,15 +92,15 @@
     )
 )
 
-; (SD:point-centroid (list (getpoint)(getpoint)))
+; (vlq:point-centroid (list (getpoint)(getpoint)))
 ; Return the average center point of a point list.
 ; Returns a 3D point when every input point has a numeric Z coordinate.
 ; Example:
-; (SD:point-centroid '((0.0 0.0 0.0) (10.0 0.0 0.0) (10.0 10.0 0.0) (0.0 10.0 0.0)))
+; (vlq:point-centroid '((0.0 0.0 0.0) (10.0 0.0 0.0) (10.0 10.0 0.0) (0.0 10.0 0.0)))
 ; => (5.0 5.0 0.0)
-(defun SD:point-centroid ( lst / pt count sum-x sum-y sum-z has-z )
+(defun vlq:point-centroid ( lst / pt count sum-x sum-y sum-z has-z )
 
-    (if (and (SD:point-p lst) lst)
+    (if (and (vlq:point-p lst) lst)
 
         (progn
 

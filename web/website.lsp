@@ -3,9 +3,9 @@
 
 ; Open a URL in a new Google Chrome window.
 ; Example:
-; (SD:open-url-chrome "https://www.naver.com")
+; (vlq:open-url-chrome "https://www.naver.com")
 ; => nil
-(defun SD:open-url-chrome ( url / chrome result )
+(defun vlq:open-url-chrome ( url / chrome result )
 
     (if (= 'str (type url))
 
@@ -35,9 +35,9 @@
 
 ; Open a URL with the default system browser.
 ; Example:
-; (SD:open-url-shell "https://www.naver.com")
+; (vlq:open-url-shell "https://www.naver.com")
 ; => nil
-(defun SD:open-url-shell ( url / shell result )
+(defun vlq:open-url-shell ( url / shell result )
 
     (if (= 'str (type url))
 
@@ -72,9 +72,9 @@
 
 ; Open a URL in a new Microsoft Edge window.
 ; Example:
-; (SD:open-url-edge "https://www.naver.com")
+; (vlq:open-url-edge "https://www.naver.com")
 ; => nil
-(defun SD:open-url-edge ( url / edge result )
+(defun vlq:open-url-edge ( url / edge result )
 
     (if (= 'str (type url))
 
@@ -104,9 +104,9 @@
 
 ; Open a URL in a new Microsoft Edge InPrivate window.
 ; Example:
-; (SD:open-url-edge-inprivate "https://www.naver.com")
+; (vlq:open-url-edge-inprivate "https://www.naver.com")
 ; => nil
-(defun SD:open-url-edge-inprivate ( url / edge result )
+(defun vlq:open-url-edge-inprivate ( url / edge result )
 
     (if (= 'str (type url))
 

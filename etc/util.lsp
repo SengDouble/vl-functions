@@ -1,8 +1,8 @@
 ; Create a random UUID string using Scriptlet.TypeLib.
 ; Example:
-; (SD:generate-uuid)
+; (vlq:generate-uuid)
 ; => "{A679190D-F4CC-4D13-966F-C053A640DBA8}"
-(defun SD:generate-uuid (/ typelib guid)
+(defun vlq:generate-uuid (/ typelib guid)
 
     (setq typelib
         (vl-catch-all-apply 'vlax-create-object (list "Scriptlet.TypeLib"))
@@ -27,9 +27,9 @@
 
 ; Return the MAC address of the first IP-enabled network adapter using WMI.
 ; Example:
-; (SD:get-mac-address)
+; (vlq:get-mac-address)
 ; => "AA:BB:CC:DD:EE:FF"
-(defun SD:get-mac-address (/ locator service adapters adapter mac result)
+(defun vlq:get-mac-address (/ locator service adapters adapter mac result)
 
     (setq locator
         (vl-catch-all-apply 'vlax-create-object (list "WbemScripting.SWbemLocator"))
@@ -97,9 +97,9 @@
 
 ; Return the current date and time as a filename-friendly timestamp.
 ; Example:
-; (SD:get-datetime-stamp)
+; (vlq:get-datetime-stamp)
 ; => "20260618-143012"
-(defun SD:get-datetime-stamp (/ timestamp)
+(defun vlq:get-datetime-stamp (/ timestamp)
 
     (setq timestamp
         (vl-catch-all-apply 'menucmd

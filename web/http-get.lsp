@@ -1,8 +1,8 @@
 ; Return response text from a URL using MSXML2.XMLHTTP.
 ; Example:
-; (SD:http-get-client "https://www.naver.com")
+; (vlq:http-get-client "https://www.naver.com")
 ; => "<!doctype html>..."
-(defun SD:http-get-client ( url / http response-text )
+(defun vlq:http-get-client ( url / http response-text )
 
     (if (= 'str (type url))
 
@@ -45,9 +45,9 @@
 
 ; Return response text from a URL using MSXML2.ServerXMLHTTP.
 ; Example:
-; (SD:http-get-server "https://www.naver.com")
+; (vlq:http-get-server "https://www.naver.com")
 ; => "<!doctype html>..."
-(defun SD:http-get-server ( url / http response-text )
+(defun vlq:http-get-server ( url / http response-text )
 
     (if (= 'str (type url))
 
@@ -94,9 +94,9 @@
 
 ; Return response headers from the first reachable URL in the URL list.
 ; Example:
-; (SD:get-first-response-headers (list "https://www.naver.com/"))
+; (vlq:get-first-response-headers (list "https://www.naver.com/"))
 ; => "Date: Thu, 05 Feb 2026 06:43:32 GMT\r\ncontent-type: text/html; charset=UTF-8\r\n..."
-(defun SD:get-first-response-headers ( url-list /
+(defun vlq:get-first-response-headers ( url-list /
 
         http index url success headers result
     )
@@ -179,9 +179,9 @@
 ; 404  Not found
 ; 500  Server error
 ; Example:
-; (SD:http-get-status-code "https://www.naver.com")
+; (vlq:http-get-status-code "https://www.naver.com")
 ; => 200
-(defun SD:http-get-status-code ( url / http method status-code )
+(defun vlq:http-get-status-code ( url / http method status-code )
 
     (if (= 'str (type url))
 
